@@ -99,6 +99,7 @@ Para validar os charts, execute:
 helm template ./helm
 
 helm lint ./helm
+
 ---
 
 ## 📌 Observações
