@@ -28,20 +28,20 @@ Para rodar localmente (Linux ou Windows), instale:
 ### 🐳 Via Docker
 1. Navegue até a pasta da aplicação:
 
-  cd devops-challenge/app
+cd devops-challenge/app
 
 2. Construa a imagem Docker:
 
-  docker build -t devops-challenge .
+docker build -t devops-challenge .
 
 3. Execute o container:
 
-  docker run -p 8080:8080 devops-challenge
+docker run -p 8080:8080 devops-challenge
 
 4. Acesse no navegador:
 
-  http://localhost:8080
-  http://localhost:8080/health — deve retornar JSON { "status": "UP" }
+- http://localhost:8080/
+- http://localhost:8080/health — deve retornar JSON { "status": "UP" }
 
 5. ✅ Verifique o health check da aplicação:
 
@@ -58,7 +58,7 @@ Permissões para criar RG, ACR e AKS no Azure
 
 ## 🚀 Como usar
 1. Autentique-se no Azure:
-
+  
   az login
 
 2. Entre na pasta do ambiente que deseja testar (dev, hml, etc):
@@ -68,25 +68,23 @@ Permissões para criar RG, ACR e AKS no Azure
   cd terraform/hml
 
 3. Inicialize o Terraform:
-
   terraform init
 
 4. Visualize o plano de execução:
-
   terraform plan
 
 5. Aplique a infraestrutura:
-
   terraform apply -auto-approve
 
 🧹 Destruir os recursos
 Caso queira remover tudo:
-
   terraform destroy -auto-approve
 
 ---
 
 ## 🔧 Validar Helm
+
+Antes de aplicar o Helm Chart no cluster, você pode realizar testes locais para verificar se os templates estão válidos.
 
 - `helm template ./helm`  
   Gera e exibe os manifests Kubernetes a partir dos charts Helm, sem aplicar nada no cluster. Útil para revisar o YAML gerado.
@@ -94,12 +92,11 @@ Caso queira remover tudo:
 - `helm lint ./helm`  
   Verifica a sintaxe e estrutura do chart Helm, identificando erros e inconsistências antes do deploy.
 
-Para validar os charts, execute:
+Para validar os charts, execute os comandos abaixo a partir da raiz do projeto (devops-challenge>):
 
-helm template ./helm
+1. helm template ./helm
 
-helm lint ./helm
-
+2. helm lint ./helm
 ---
 
 ## 📌 Observações
