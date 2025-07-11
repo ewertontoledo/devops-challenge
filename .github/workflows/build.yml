@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-
+  workflow_dispatch:   # <-- adicionado workflow dispatch para executar manualmente
 env:
   IMAGE_NAME: devops-challenge-app
   IMAGE_TAG: ${{ github.sha }}
