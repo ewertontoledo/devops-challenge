@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # Nome do serviço gerado com helper para garantir padrão único e consistente no release
+  name: {{ include "devops-challenge-app.fullname" . }}
+spec:
+  # Tipo do serviço (ClusterIP, NodePort, LoadBalancer) configurado via values.yaml
+  type: {{ .Values.service.type }}
+  ports:
+    - 
+      # Porta exposta pelo serviço (externa)
+      port: {{ .Values.service.port }}
+      targetPort: 8080
+  selector:
+    # Seleciona os pods que possuem esse label para receberem o tráfego do serviço
+    app: {{ include "devops-challenge-app.name" . }}

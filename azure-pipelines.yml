@@ -1,0 +1,91 @@
+trigger:
+- main
+
+variables:
+  imageName: devops-challenge-app
+  helmNamespace: default                # Namespace para deploy
+  helmVersion: 'latest'                 # Versão do Helm
+  imageTag: $(Build.SourceVersion)     # Tag da imagem baseada no commit SHA
+
+stages:
+- stage: Prepare
+  displayName: Obter variáveis do Azure
+  jobs:
+  - job: SetVars
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: AzureCLI@2
+      displayName: Obter ACR, ResourceGroup e AKS Cluster
+      inputs:
+        azureSubscription: '<your-azure-service-connection>'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          # Busca o nome do ACR (pega o primeiro)
+          ACR_NAME=$(az acr list --query "[0].name" -o tsv)
+          echo "##vso[task.setvariable variable=acrName]$ACR_NAME"
+          echo "ACR_NAME set to $ACR_NAME"
+
+          # Busca Resource Group e AKS Cluster com filtro pelo nome parcial
+          AKS_NAME_PART="devops"  # Ajuste se quiser outro filtro
+
+          RESOURCE_GROUP=$(az aks list --query "[?contains(name, '$AKS_NAME_PART')].resourceGroup" -o tsv | head -1)
+          echo "##vso[task.setvariable variable=resourceGroup]$RESOURCE_GROUP"
+          echo "RESOURCE_GROUP set to $RESOURCE_GROUP"
+
+          AKS_CLUSTER_NAME=$(az aks list --query "[?contains(name, '$AKS_NAME_PART')].name" -o tsv | head -1)
+          echo "##vso[task.setvariable variable=aksClusterName]$AKS_CLUSTER_NAME"
+          echo "AKS_CLUSTER_NAME set to $AKS_CLUSTER_NAME"
+
+- stage: Build
+  displayName: Build Docker Image
+  dependsOn: Prepare
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Build and push image
+      inputs:
+        containerRegistry: '$(acrName)'
+        repository: '$(acrName).azurecr.io/$(imageName)'
+        command: buildAndPush
+        Dockerfile: 'app/Dockerfile'
+        tags: |
+          $(imageTag)
+
+- stage: Deploy
+  displayName: Deploy to AKS
+  dependsOn: Build
+  jobs:
+  - deployment: DeployHelm
+    environment: 'aks'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: HelmInstaller@1
+            displayName: Install Helm
+            inputs:
+              helmVersionToInstall: '$(helmVersion)'
+
+          - task: AzureCLI@2
+            displayName: Deploy Helm Chart to AKS
+            inputs:
+              azureSubscription: '<your-azure-service-connection>'
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                echo "Obtendo credenciais do cluster AKS..."
+                az aks get-credentials --resource-group $(resourceGroup) --name $(aksClusterName) --overwrite-existing
+
+                echo "Executando Helm upgrade/install..."
+                helm upgrade --install devops-challenge-app helm \
+                  --namespace $(helmNamespace) \
+                  --create-namespace \
+                  --set image.repository=$(acrName).azurecr.io/$(imageName) \
+                  --set image.tag=$(imageTag)

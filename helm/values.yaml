@@ -1,0 +1,26 @@
+replicaCount: 1 
+
+image:
+  repository: nginx           # Imagem Docker a ser usada
+  tag: stable                 # Tag da imagem (versão específica)
+  pullPolicy: IfNotPresent    # Baixa a imagem apenas se não estiver presente localmente
+
+env:
+  APP_NAME: "DevOps Challenge"  # Variável de ambiente passada ao container
+
+configMap:
+  enabled: true  # Controla se o ConfigMap será criado
+  data:
+    customMessage: "Hello from ConfigMap"  # Valor a ser incluído no ConfigMap
+
+secret:
+  enabled: true  # Controla se o Secret será criado
+  data:
+    secretKey: "mySecretValue"  # Valor sensível, codificado em base64 no template
+
+service:
+  type: ClusterIP  # Tipo de acesso ao serviço dentro do cluster
+  port: 80      
+
+resources: {}  # Limites e requisições de CPU/memória (vazio = sem restrições)
+

@@ -1,0 +1,16 @@
+apiVersion: v1              
+kind: ConfigMap           
+
+# Informações que identificam o recurso (nome, labels)
+metadata:                  
+  name: '{{ include "devops-challenge-app.fullname" . }}-config'  # Nome dinâmico do ConfigMap
+  labels:
+    app.kubernetes.io/name: {{ include "devops-challenge-app.name" . }}  
+    app.kubernetes.io/instance: {{ .Release.Name }}                   
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}                
+    app.kubernetes.io/managed-by: {{ .Release.Service }}        
+
+# Dados armazenados no ConfigMap, usados pela aplicação
+data:                      
+  appName: "{{ .Values.env.APP_NAME }}"           
+  customMessage: "{{ .Values.configMap.data.customMessage }}"  
