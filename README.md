@@ -22,6 +22,9 @@ Para rodar localmente (Linux ou Windows), instale:
 - [Git](https://git-scm.com/)
 
 ---
+### 🔽 Antes de inciar o teste local clone o repositório
+
+git clone https://github.com/ewertontoledo/devops-challenge.git
 
 ## ▶️ Executando a Aplicação Localmente
 
