@@ -59,28 +59,28 @@ Azure CLI autenticado
 Permissões para criar RG, ACR e AKS no Azure
 
 ## 🚀 Como usar
-1. Autentique-se no Azure:
-# az login
+# 1. Autentique-se no Azure:
+az login
 
-2. Entre na pasta do ambiente que deseja testar (dev, hml, etc):
+# 2. Entre na pasta do ambiente que deseja testar (dev, hml, etc):
 
 cd terraform/dev
-# ou
+ou
 cd terraform/hml
 
-3. Inicialize o Terraform:
-# terraform init
+# 3. Inicialize o Terraform:
+terraform init
 
-4. Visualize o plano de execução:
-# terraform plan
+# 4. Visualize o plano de execução:
+terraform plan
 
-5. Aplique a infraestrutura:
-# terraform apply -auto-approve
+# 5. Aplique a infraestrutura:
+ terraform apply -auto-approve
 
 🧹 Destruir os recursos
 Caso queira remover tudo:
 
-# terraform destroy -auto-approve
+terraform destroy -auto-approve
 ---
 
 ## 🔧 Validar Helm
@@ -98,7 +98,7 @@ Para validar os charts, execute:
 2. helm lint ./helm
 ---
 
-📌 Observações
+## 📌 Observações
 - O Dockerfile utiliza multi-stage build para separar a etapa de build da etapa final de execução.
 Isso resulta em uma imagem final mais leve e mais rápida para subir e rodar.
 - O Helm chart usa _helpers.tpl para centralizar funções e templates reutilizáveis, facilitando a manutenção e evitando repetição.
