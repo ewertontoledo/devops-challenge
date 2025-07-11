@@ -99,16 +99,15 @@ Para validar os charts, execute os comandos abaixo a partir da raiz do projeto (
 2. helm lint ./helm
 ---
 
-## 🚧 Pipeline CI/CD
+## 🚧 Pipeline CI/CD 
 
-Esta pipeline está configurada para **buildar a imagem Docker e testar a aplicação localmente**, garantindo que tudo funcione antes de qualquer implantação.
+Esta pipeline builda a imagem Docker e testa a aplicação localmente, garantindo que funcione antes de qualquer deploy.
 
-> ⚠️ **Atenção:**  
-> Atualmente, **o deploy automático no Azure não está ativado/ligado**.  
-> O arquivo `azure-pipelines.yml` está estruturado para realizar o deploy no Azure Kubernetes Service (AKS) usando Helm, mas essa etapa está desabilitada para rodar automaticamente. 
+⚠️ Atenção:
+O deploy automático no Azure não está ativado.
+O arquivo azure-pipelines.yml está pronto para deploy no AKS via Helm, mas essa etapa está desabilitada.
 
-Você pode usar a pipeline do GitHub Actions para validar localmente e o Azure DevOps para orquestrar o deploy completo, conforme sua necessidade.
-
+Use o GitHub Actions para validar localmente e o Azure DevOps para o deploy completo, conforme precisar
 
 ## 📌 Observações
 - O Dockerfile utiliza multi-stage build para separar a etapa de build da etapa final de execução.
