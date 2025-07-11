@@ -59,28 +59,28 @@ Azure CLI autenticado
 Permissões para criar RG, ACR e AKS no Azure
 
 ## 🚀 Como usar
-# 1. Autentique-se no Azure:
-az login
+1. Autentique-se no Azure:
+  az login
 
-# 2. Entre na pasta do ambiente que deseja testar (dev, hml, etc):
+2. Entre na pasta do ambiente que deseja testar (dev, hml, etc):
 
-cd terraform/dev
-ou
-cd terraform/hml
+  cd terraform/dev
+  ou
+  cd terraform/hml
 
-# 3. Inicialize o Terraform:
-terraform init
+3. Inicialize o Terraform:
+  terraform init
 
-# 4. Visualize o plano de execução:
-terraform plan
+4. Visualize o plano de execução:
+  terraform plan
 
-# 5. Aplique a infraestrutura:
- terraform apply -auto-approve
+5. Aplique a infraestrutura:
+  terraform apply -auto-approve
 
 🧹 Destruir os recursos
 Caso queira remover tudo:
+  terraform destroy -auto-approve
 
-terraform destroy -auto-approve
 ---
 
 ## 🔧 Validar Helm
