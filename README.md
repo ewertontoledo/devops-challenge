@@ -28,24 +28,22 @@ Para rodar localmente (Linux ou Windows), instale:
 ### 🐳 Via Docker
 1. Navegue até a pasta da aplicação:
 
-cd devops-challenge/app
+  cd devops-challenge/app
 
 2. Construa a imagem Docker:
 
-docker build -t devops-challenge .
+  docker build -t devops-challenge .
 
 3. Execute o container:
 
-docker run -p 8080:8080 devops-challenge
+  docker run -p 8080:8080 devops-challenge
 
 4. Acesse no navegador:
 
-http://localhost:8080
+  http://localhost:8080
+  http://localhost:8080/health — deve retornar JSON { "status": "UP" }
 
 5. ✅ Verifique o health check da aplicação:
-
-- http://localhost:8080/
-- http://localhost:8080/health — deve retornar JSON { "status": "UP" }
 
 > **Para testar a requisição no Postman**, você pode usar o comando cURL copiado para o Postman com o recurso “Import” > “Raw Text”.  
 > Aqui está o comando completo para colar: curl --location --request GET 'http://localhost:8080/health'
@@ -60,6 +58,7 @@ Permissões para criar RG, ACR e AKS no Azure
 
 ## 🚀 Como usar
 1. Autentique-se no Azure:
+
   az login
 
 2. Entre na pasta do ambiente que deseja testar (dev, hml, etc):
@@ -69,16 +68,20 @@ Permissões para criar RG, ACR e AKS no Azure
   cd terraform/hml
 
 3. Inicialize o Terraform:
+
   terraform init
 
 4. Visualize o plano de execução:
+
   terraform plan
 
 5. Aplique a infraestrutura:
+
   terraform apply -auto-approve
 
 🧹 Destruir os recursos
 Caso queira remover tudo:
+
   terraform destroy -auto-approve
 
 ---
@@ -93,14 +96,14 @@ Caso queira remover tudo:
 
 Para validar os charts, execute:
 
-1. helm template ./helm
+helm template ./helm
 
-2. helm lint ./helm
+helm lint ./helm
 ---
 
 ## 📌 Observações
 - O Dockerfile utiliza multi-stage build para separar a etapa de build da etapa final de execução.
-Isso resulta em uma imagem final mais leve e mais rápida para subir e rodar.
+- Isso resulta em uma imagem final mais leve e mais rápida para subir e rodar.
 - O Helm chart usa _helpers.tpl para centralizar funções e templates reutilizáveis, facilitando a manutenção e evitando repetição.
 - ConfigMap e Secret foram usados para separar configurações da aplicação e dados sensíveis, melhorando segurança e flexibilidade.
 - O Service expõe a aplicação dentro do cluster Kubernetes, permitindo comunicação e balanceamento de carga.
