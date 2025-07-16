@@ -1,7 +1,6 @@
 # 🚀 DevOps Challenge
 
-Este repositório contém uma solução DevOps  
-simples para deploy de uma aplicação web para o desafio técnico de **Analista DevOps Pleno**, incluindo:
+Este repositório contém uma solução DevOpssimples para deploy de uma aplicação web, incluindo:
 
 - Aplicação Node.js 
 - Dockerfile com build multi-stage e healthcheck
